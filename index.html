@@ -36,6 +36,12 @@ body{
   --card:#FFFFFF;
   --gold:#d19d01;
   --gold-light:#ead28c;
+  /* Plata: identidad principal de una boda de plata. El dorado del cliente
+     queda como acento calido, la plata como material. */
+  --silver:#8a8a8a;
+  --silver-light:#d8d8d8;
+  --silver-deep:#5e5e5e;
+  --silver-hair:rgba(150,150,150,.42);
 }
 .wrap{max-width:430px;margin:0 auto;background:var(--bg);position:relative;overflow:clip;z-index:1;}
 
@@ -127,8 +133,8 @@ body{
 /* ── FECHA ── */
 .fecha-sec{padding:28px 26px 10px;text-align:center;}
 .fecha-line{display:flex;align-items:center;justify-content:center;gap:16px;}
-.fecha-line .fl-bar{flex:1;max-width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold));opacity:.55;}
-.fecha-line .fl-bar.right{background:linear-gradient(to left,transparent,var(--gold));}
+.fecha-line .fl-bar{flex:1;max-width:60px;height:1px;background:linear-gradient(to right,transparent,var(--silver));opacity:.7;}
+.fecha-line .fl-bar.right{background:linear-gradient(to left,transparent,var(--silver));}
 .fecha-txt{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:16px;letter-spacing:6px;text-transform:uppercase;color:var(--dark);}
 
 /* ── SECCIONES ── */
@@ -173,7 +179,7 @@ section{padding:60px 26px;}
 .mensaje-card{
   background:var(--card);border-radius:20px;padding:36px 28px;
   box-shadow:0 6px 36px rgba(45,45,45,.08);
-  text-align:center;border-top:2px solid var(--gold);
+  text-align:center;border-top:2px solid var(--silver-light);
 }
 .mensaje-texto{
   font-family:'Cormorant Garamond',serif;font-style:italic;
@@ -187,7 +193,7 @@ section{padding:60px 26px;}
 
 /* ── COUNTDOWN ── */
 .cd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.cd-box{background:var(--card);border-radius:14px;padding:20px 4px;text-align:center;box-shadow:0 6px 36px rgba(45,45,45,.08);border-top:2px solid var(--gold);}
+.cd-box{background:var(--card);border-radius:14px;padding:20px 4px;text-align:center;box-shadow:0 6px 36px rgba(45,45,45,.08);border-top:2px solid var(--silver-light);}
 .cd-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--dark);line-height:1;font-weight:600;font-variant-numeric:tabular-nums;}
 .cd-lbl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:6px;font-weight:500;}
 
@@ -195,7 +201,7 @@ section{padding:60px 26px;}
 .loc-card{
   background:var(--card);border-radius:18px;padding:28px 22px;
   box-shadow:0 6px 36px rgba(45,45,45,.08);margin-bottom:18px;text-align:center;
-  border-left:3px solid var(--gold);
+  border-left:3px solid var(--silver-light);
 }
 .loc-card .lt{font-family:'Great Vibes',cursive;font-size:42px;color:var(--dark);margin-bottom:4px;}
 .loc-card .ls{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
@@ -226,22 +232,33 @@ section{padding:60px 26px;}
   top:0;bottom:0;width:1px;z-index:0;
   background:linear-gradient(to bottom,
     transparent 0%,
-    rgba(209,157,1,0.35) 10%,
-    rgba(122,122,122,0.25) 45%,
-    rgba(209,157,1,0.30) 80%,
+    rgba(160,160,160,0.28) 10%,
+    rgba(160,160,160,0.20) 45%,
+    rgba(160,160,160,0.26) 80%,
     transparent 100%);
 }
+/* Linea de progreso plata que se llena con el scroll (scaleY desde arriba) */
+.itv3-fill{
+  position:absolute;left:50%;top:0;bottom:0;width:2px;z-index:1;
+  transform:translateX(-50%) scaleY(0);transform-origin:top center;
+  background:linear-gradient(to bottom,
+    rgba(232,232,232,.95) 0%,
+    rgba(184,184,184,.9) 40%,
+    rgba(209,157,1,.55) 100%);
+  box-shadow:0 0 10px rgba(220,220,220,.65),0 0 22px rgba(209,157,1,.25);
+  border-radius:2px;pointer-events:none;
+}
 .itv3-glow{
-  position:absolute;left:50%;transform:translateX(-50%);
-  top:0;width:5px;height:110px;
+  position:absolute;left:50%;top:0;width:6px;height:110px;
+  transform:translate(-50%,0);will-change:transform;
   background:linear-gradient(to bottom,
     transparent,
-    rgba(209,157,1,0.55) 20%,
-    rgba(209,157,1,0.90) 50%,
-    rgba(209,157,1,0.55) 80%,
+    rgba(255,255,255,0.55) 18%,
+    rgba(240,240,240,0.95) 50%,
+    rgba(209,157,1,0.55) 82%,
     transparent);
   filter:blur(3px);border-radius:6px;
-  z-index:1;pointer-events:none;
+  z-index:2;pointer-events:none;
 }
 .itv3-item{
   position:relative;z-index:2;
@@ -249,20 +266,27 @@ section{padding:60px 26px;}
   text-align:center;padding:30px 16px 4px;width:100%;
 }
 .itv3-gem{
-  width:9px;height:9px;
-  background:linear-gradient(135deg,#ead28c 30%,#a37c01);
+  width:11px;height:11px;
+  background:linear-gradient(135deg,#f2f2f2 20%,#c8c8c8 50%,#7a7a7a 100%);
   transform:rotate(45deg);border-radius:2px;
-  box-shadow:0 0 0 4px rgba(209,157,1,0.12),0 0 18px rgba(209,157,1,0.45);
+  box-shadow:0 0 0 4px rgba(170,170,170,0.14),0 0 14px rgba(180,180,180,0.35);
   margin-bottom:18px;flex-shrink:0;
+  transition:box-shadow .5s ease,background .5s ease;
 }
 .itv3-gem-gray{
-  background:linear-gradient(135deg,#c0c0c0 30%,#5a5a5a);
-  box-shadow:0 0 0 4px rgba(122,122,122,0.14),0 0 18px rgba(122,122,122,0.45);
+  background:linear-gradient(135deg,#e8e8e8 20%,#b0b0b0 55%,#6a6a6a 100%);
 }
 .itv3-gem-mid{
-  background:linear-gradient(135deg,#d4b87e 30%,#7d6001);
-  box-shadow:0 0 0 4px rgba(209,157,1,0.10),0 0 18px rgba(209,157,1,0.38);
+  background:linear-gradient(135deg,#ffffff 20%,#d4d4d4 55%,#8a8a8a 100%);
 }
+/* Estado encendido: la gema se activa cuando la linea de progreso la alcanza */
+.itv3-item.is-lit .itv3-gem{
+  background:linear-gradient(135deg,#ffffff 15%,#e6e6e6 45%,#d19d01 100%);
+  box-shadow:0 0 0 5px rgba(209,157,1,0.14),
+             0 0 18px rgba(255,255,255,0.85),
+             0 0 34px rgba(209,157,1,0.45);
+}
+.itv3-item.is-lit .itv3-time{color:#1f1f1f;}
 .itv3-time{
   font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;
   letter-spacing:8px;color:var(--dark);line-height:1;margin-bottom:6px;
@@ -288,7 +312,7 @@ section{padding:60px 26px;}
 .dc-fig{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px 10px 14px;}
 .dc-divider{
   width:1px;flex-shrink:0;margin:12px 0;
-  background:linear-gradient(to bottom,transparent,var(--gold) 18%,var(--gold) 82%,transparent);
+  background:linear-gradient(to bottom,transparent,var(--silver) 18%,var(--silver) 82%,transparent);
 }
 .dc-svg{height:148px;width:auto;color:var(--dark);}
 .dc-fig-name{
@@ -322,7 +346,23 @@ section{padding:60px 26px;}
 .fam-g .role{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
 .fam-g .names{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--dark);line-height:1.7;}
 .amp{font-style:italic;font-size:16px;color:var(--gold);}
-.flor{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--gold);opacity:.5;letter-spacing:10px;}
+.flor{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--silver);opacity:.75;letter-spacing:10px;}
+
+/* ── FLOWER GIRLS · una por una con fade ──
+   Altura fija reservada: los nombres se apilan en la misma caja para que el
+   layout no salte al cambiar de nombre (CLS = 0). */
+.fg-rotator{position:relative;height:2.1em;}
+.fg-name{
+  position:absolute;left:0;right:0;top:0;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .7s ease,transform .7s ease;
+  pointer-events:none;
+}
+.fg-name.is-active{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion:reduce){
+  .fg-rotator{height:auto;}
+  .fg-name{position:static;opacity:1;transform:none;transition:none;display:block;}
+}
 
 /* ── PHOTO MOMENTS (fotos editoriales inline) ── */
 @keyframes levitate{
@@ -437,8 +477,35 @@ section{padding:60px 26px;}
   letter-spacing:2.5px;text-transform:uppercase;color:var(--text);opacity:.7;
 }
 
-/* ── RSVP ── */
-.rsvp-card{background:var(--card);border-radius:18px;padding:28px 22px;box-shadow:0 6px 36px rgba(45,45,45,.08);}
+/* ── RSVP (formato boda-jennifer: tarjeta con esquinas + ornamento) ── */
+.rsvp-card{
+  position:relative;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(170,170,170,.45);border-radius:0;
+  padding:44px 26px 38px;
+  box-shadow:0 24px 64px rgba(45,45,45,.10),0 4px 20px rgba(209,157,1,.12);
+}
+.rsvp-card::before{content:"";position:absolute;inset:10px;border:1px solid rgba(209,157,1,.22);pointer-events:none;}
+.rsvp-corner{position:absolute;width:44px;height:44px;pointer-events:none;}
+.rsvp-corner--tl{top:0;left:0;}
+.rsvp-corner--tr{top:0;right:0;transform:scaleX(-1);}
+.rsvp-corner--bl{bottom:0;left:0;transform:scaleY(-1);}
+.rsvp-corner--br{bottom:0;right:0;transform:scale(-1,-1);}
+.rsvp-ornament{display:block;margin:0 auto 22px;width:min(260px,72vw);height:auto;}
+.rsvp-text{
+  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;
+  color:var(--text);line-height:1.85;margin-bottom:22px;text-align:center;
+}
+.rsvp-divider{display:flex;align-items:center;gap:14px;margin:0 auto 24px;max-width:280px;}
+.rsvp-divider::before,.rsvp-divider::after{
+  content:"";flex:1;height:1px;
+  background:linear-gradient(to right,transparent,rgba(160,160,160,.55),transparent);
+}
+.rsvp-divider-heart{color:var(--gold);flex-shrink:0;opacity:.85;}
+.rsvp-name-display{
+  font-family:'Great Vibes',cursive;font-size:38px;color:var(--dark);
+  line-height:1.2;margin:6px auto 10px;text-align:center;
+}
 .rsvp-label{
   display:block;font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:14px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
@@ -624,15 +691,55 @@ footer .fc a{color:inherit;text-decoration:none;}
   background:radial-gradient(circle,#ead28c,#a37c01);border-radius:50%;
   box-shadow:0 1px 3px rgba(0,0,0,.3);
 }
-/* ── HOTEL PHOTO ── */
+/* ── HOTEL PHOTO — circular (formato boda-roxana-y-omar) ── */
 .hotel-photo{
-  width:calc(100% + 48px);height:160px;border-radius:16px 16px 0 0;overflow:hidden;
-  background:linear-gradient(135deg,#3a3a3a 0%,#6a6a6a 50%,#4a4040 100%);
-  display:flex;align-items:center;justify-content:center;
-  margin:-30px -24px 20px;position:relative;
+  width:200px;height:200px;border-radius:50%;overflow:hidden;
+  border:3px solid rgba(209,157,1,.3);
+  box-shadow:0 12px 34px rgba(209,157,1,.18);
+  margin:0 auto 22px;
 }
-.hotel-photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
-.hotel-photo-icon{opacity:.25;}
+.hotel-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.hotel-city{
+  font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  opacity:.85;margin-bottom:16px;
+}
+@media(max-width:430px){
+  .hotel-photo{width:172px;height:172px;}
+}
+/* ── LLUVIA DE SOBRES · sobre interactivo (formato boda-jennifer) ── */
+.env-interactive{
+  display:flex;flex-direction:column;align-items:center;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;outline:none;border:none;background:none;padding:0;
+}
+.env-body{perspective:700px;position:relative;width:260px;height:200px;animation:env-breathe 3.6s ease-in-out infinite;}
+.env-body svg.env-svg{width:100%;height:100%;}
+.env-flap-wrap{
+  position:absolute;top:46px;left:18px;width:224px;height:86px;
+  transform-origin:top center;transform-style:preserve-3d;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  transition:transform .65s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:2;
+}
+.env-interactive.open .env-flap-wrap{transform:rotateX(-175deg);}
+.env-open-content{
+  overflow:hidden;max-height:0;opacity:0;
+  transition:max-height .55s .3s ease,opacity .4s .38s ease;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:0 20px;text-align:center;pointer-events:none;
+}
+.env-interactive.open .env-open-content{max-height:260px;opacity:1;pointer-events:auto;}
+.env-mailbox-icon{width:40px;height:40px;color:var(--gold);margin-top:10px;}
+.env-title{font-family:'Great Vibes',cursive;font-size:32px;color:var(--dark);line-height:1.2;}
+.env-desc{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;font-style:italic;color:var(--text);line-height:1.75;}
+.env-tap-hint{
+  font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;
+  letter-spacing:3px;text-transform:uppercase;color:var(--gold);
+  opacity:.85;margin-top:10px;transition:opacity .3s;
+}
+.env-interactive.open ~ .env-tap-hint{opacity:0;pointer-events:none;}
+@keyframes env-breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
+@media(prefers-reduced-motion:reduce){.env-body{animation:none;}}
+
 /* ── GIFT CARD CENTERED ── */
 .gift-card-centered{
   background:var(--card);border-radius:18px;padding:28px 22px;
@@ -737,14 +844,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -780,14 +887,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -812,14 +919,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -875,14 +982,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -893,6 +1000,7 @@ footer .fc a{color:inherit;text-decoration:none;}
     <h2 class="sec-title rv">Itinerario</h2>
     <div class="itv3">
       <div class="itv3-track"></div>
+      <div class="itv3-fill" id="itvFill"></div>
       <div class="itv3-glow" id="itvGlow"></div>
 
       <div class="itv3-item rv">
@@ -933,14 +1041,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -975,14 +1083,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -1009,7 +1117,13 @@ footer .fc a{color:inherit;text-decoration:none;}
       <div class="flor rv">✦ &nbsp; ✦ &nbsp; ✦</div>
       <div class="fam-g rv">
         <div class="role">Flower Girls</div>
-        <div class="names">Daniella Rosales · Tiana Rosales<br>Sienna Bailey · Alessandra Rosales<br>Anaise Rosales</div>
+        <div class="names fg-rotator" id="fgRotator" aria-live="polite">
+          <span class="fg-name is-active">Daniella Rosales</span>
+          <span class="fg-name">Tiana Rosales</span>
+          <span class="fg-name">Sienna Bailey</span>
+          <span class="fg-name">Alessandra Rosales</span>
+          <span class="fg-name">Anaise Rosales</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1022,14 +1136,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -1038,16 +1152,53 @@ footer .fc a{color:inherit;text-decoration:none;}
   <section class="rv" id="sgifts">
     <div class="eyebrow">Con Cariño</div>
     <h2 class="sec-title">Mesa de Regalos</h2>
-    <div class="gift-grid">
-
-      <div class="gift-card-centered rv">
-        <div class="gc-store" style="font-family:'Great Vibes',cursive;font-size:38px;">Lluvia de Sobres</div>
-        <div class="gc-label">Con Todo Nuestro Cariño</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:500;color:var(--text);line-height:1.8;max-width:280px;margin:0 auto;">
-          Tu presencia es nuestro mejor regalo. Si deseas obsequiarnos algo más, agradecemos una lluvia de sobres.
+    <div style="margin:34px auto 0;display:flex;flex-direction:column;align-items:center;">
+      <button class="env-interactive" aria-label="Sobre — toca para abrir" aria-expanded="false">
+        <div class="env-body">
+          <svg class="env-svg" viewBox="0 0 260 200" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="as-env-fill" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#f2f2f2"/>
+                <stop offset="100%" stop-color="#fdfdfd"/>
+              </linearGradient>
+            </defs>
+            <rect x="18" y="52" width="224" height="132" rx="10"
+                  fill="url(#as-env-fill)" stroke="rgba(170,170,170,.7)" stroke-width="1.4"/>
+            <path d="M18 184 L130 110 L242 184" stroke="rgba(170,170,170,.5)" stroke-width="1" fill="none"/>
+            <line x1="90"  y1="30" x2="90"  y2="20" stroke="#c8c8c8" stroke-width="1.3" stroke-linecap="round" opacity=".6"/>
+            <line x1="130" y1="24" x2="130" y2="14" stroke="#c8c8c8" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+            <line x1="170" y1="30" x2="170" y2="20" stroke="#c8c8c8" stroke-width="1.3" stroke-linecap="round" opacity=".6"/>
+            <line x1="110" y1="18" x2="110" y2="10" stroke="#d8d8d8" stroke-width="1" stroke-linecap="round" opacity=".45"/>
+            <line x1="150" y1="18" x2="150" y2="10" stroke="#d8d8d8" stroke-width="1" stroke-linecap="round" opacity=".45"/>
+            <circle cx="130" cy="118" r="16" fill="rgba(209,157,1,.14)" stroke="rgba(209,157,1,.55)" stroke-width="1"/>
+            <text x="130" y="123" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#2d2d2d" opacity=".85">A&amp;S</text>
+          </svg>
+          <div class="env-flap-wrap" aria-hidden="true">
+            <svg viewBox="0 0 224 86" preserveAspectRatio="none" style="width:100%;height:100%">
+              <defs>
+                <linearGradient id="as-flap-fill" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#dcdcdc"/>
+                  <stop offset="100%" stop-color="#f7f7f7"/>
+                </linearGradient>
+              </defs>
+              <path d="M0 0 L112 86 L224 0 Z"
+                    fill="url(#as-flap-fill)" stroke="rgba(170,170,170,.7)" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
         </div>
-      </div>
-
+        <div class="env-open-content" aria-live="polite">
+          <svg class="env-mailbox-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="8" y="22" width="36" height="24" rx="5"/>
+            <path d="M8 30 Q26 38 44 30"/>
+            <rect x="18" y="8" width="16" height="16" rx="2"/>
+            <path d="M18 8 Q26 3 34 8"/>
+            <rect x="20" y="28" width="12" height="2.5" rx="1.25" fill="currentColor" stroke="none" opacity=".4"/>
+          </svg>
+          <p class="env-title">Lluvia de Sobres</p>
+          <p class="env-desc">Tu presencia es nuestro mejor regalo.<br>Si deseas obsequiarnos algo más,<br>habrá un buzón para tu sobre.</p>
+        </div>
+      </button>
+      <p class="env-tap-hint">Toca el sobre</p>
     </div>
   </section>
 
@@ -1059,14 +1210,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -1081,6 +1232,7 @@ footer .fc a{color:inherit;text-decoration:none;}
         <img src="./hotel-courtyard.jpg" alt="Courtyard by Marriott Redwood City" loading="lazy">
       </div>
       <div class="hotel-name">Courtyard Redwood City</div>
+      <div class="hotel-city">Redwood City, California</div>
       <div class="hotel-tip">
         Al reservar menciona que eres invitado/a a la boda de <em>Anabel y Salvador</em>.
       </div>
@@ -1100,14 +1252,14 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- ORNAMENTO -->
   <div class="orn rv">
     <svg viewBox="0 0 220 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#d19d01" stroke-width=".55"/>
-      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
-      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#d19d01" opacity=".58"/>
-      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#d19d01" opacity=".4"/>
+      <line class="orn-line" x1="0" y1="12" x2="86" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <line class="orn-line" x1="134" y1="12" x2="220" y2="12" stroke="#9a9a9a" stroke-width=".55"/>
+      <circle class="orn-dot" cx="91" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="97" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="103" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="117" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
+      <circle class="orn-dot" cx="123" cy="12" r="1.7" fill="#adadad" opacity=".58"/>
+      <circle class="orn-dot" cx="129" cy="12" r="1.2" fill="#adadad" opacity=".4"/>
       <path class="orn-star" d="M110,5 C114,9 114,15 110,19 C106,15 106,9 110,5Z M103,12 C107,8 113,8 117,12 C113,16 107,16 103,12Z" fill="#d19d01"/>
     </svg>
   </div>
@@ -1117,6 +1269,34 @@ footer .fc a{color:inherit;text-decoration:none;}
     <div class="eyebrow">Confirma tu Asistencia</div>
     <h2 class="sec-title">R.S.V.P.</h2>
     <div class="rsvp-card" id="rsvp-card">
+      <svg class="rsvp-corner rsvp-corner--tl" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
+      <svg class="rsvp-corner rsvp-corner--tr" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
+      <svg class="rsvp-corner rsvp-corner--bl" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
+      <svg class="rsvp-corner rsvp-corner--br" viewBox="0 0 52 52" fill="none" aria-hidden="true"><path d="M2 50 L2 2 L50 2" stroke="var(--gold)" stroke-width=".9" opacity=".6"/><circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity=".5"/></svg>
+
+      <svg class="rsvp-ornament" viewBox="0 0 320 56" fill="none" aria-hidden="true">
+        <g stroke="#a8a8a8" stroke-width=".9" opacity=".9" fill="none">
+          <path d="M18 28 Q50 10 82 28 Q106 42 130 28"/>
+          <path d="M190 28 Q214 42 238 28 Q270 10 302 28"/>
+        </g>
+        <g stroke="var(--gold)" stroke-width=".9" opacity=".9" fill="none">
+          <circle cx="160" cy="28" r="5.5"/>
+          <circle cx="160" cy="28" r="2" fill="var(--gold)" stroke="none"/>
+          <path d="M148 28 L154 28" opacity=".5"/>
+          <path d="M166 28 L172 28" opacity=".5"/>
+          <path d="M154 20 Q160 13 166 20" opacity=".55"/>
+          <path d="M154 36 Q160 43 166 36" opacity=".55"/>
+        </g>
+      </svg>
+
+      <p class="rsvp-text">Nos encantará contar contigo. Por favor confirma tu asistencia antes del <strong>10 de septiembre de 2026</strong>.</p>
+
+      <p class="rsvp-name-display" id="rsvpNameDisplay" style="display:none"></p>
+
+      <div class="rsvp-divider">
+        <svg class="rsvp-divider-heart" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
+      </div>
+
       <div id="rsvp-fields"></div>
       <button class="btn-confirmar" id="rsvpBtn" aria-label="Confirmar asistencia">
         Confirmar
@@ -1180,6 +1360,13 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
 (function initRsvp(){
   var container = document.getElementById('rsvp-fields');
   var btn       = document.getElementById('rsvpBtn');
+
+  /* Nombre del invitado dentro de la tarjeta (formato boda-jennifer) */
+  var nameDisp = document.getElementById('rsvpNameDisplay');
+  if(RSVP_PARA && nameDisp){
+    nameDisp.textContent = RSVP_PARA;
+    nameDisp.style.display = '';
+  }
 
   /* 1 — Badge pases asignados */
   var badge = document.createElement('div');
@@ -1459,7 +1646,12 @@ function launchPage(){
   initScrollReveal();
   initItinerary();
   initDressCode();
+  initRsvpMotion();
   tryAutoMusic();
+  /* La pagina estuvo en visibility:hidden tras el sobre: sin este refresh los
+     ScrollTrigger conservan medidas viejas y el itinerario no se mueve. */
+  ScrollTrigger.refresh();
+  setTimeout(function(){ ScrollTrigger.refresh(); }, 400);
 }
 
 /* ══════════════════════════════════════
@@ -1505,21 +1697,40 @@ function initScrollReveal(){
 ══════════════════════════════════════ */
 function initItinerary(){
   var glow = document.getElementById('itvGlow');
+  var fill = document.getElementById('itvFill');
   var section = document.getElementById('siti');
   var items = document.querySelectorAll('.itv3-item');
   if(!glow || !section) return;
 
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top 58%',
-    end: 'bottom 42%',
-    scrub: 1.8,
-    onUpdate: function(self){
-      var track = section.querySelector('.itv3-track');
-      if(!track) return;
-      var h = track.offsetHeight - 55;
-      glow.style.top = (self.progress * h) + 'px';
+  var track = section.querySelector('.itv3-track');
+
+  /* Recorrido de la linea y el destello con el scroll.
+     Se anima `y` (transform) en vez de `top`: no dispara layout y va a 60fps.
+     invalidateOnRefresh recalcula la altura si cambia el viewport o si el
+     contenido se revela despues (el sobre oculta la pagina al cargar). */
+  gsap.timeline({
+    scrollTrigger:{
+      trigger: section,
+      start: 'top 72%',
+      end: 'bottom 55%',
+      scrub: 1.1,
+      invalidateOnRefresh: true
     }
+  })
+  .fromTo(fill, {scaleY:0}, {scaleY:1, ease:'none'}, 0)
+  .fromTo(glow,
+    {y:0},
+    {y:function(){ return (track ? track.offsetHeight : section.offsetHeight) - 110; },
+     ease:'none'}, 0);
+
+  /* Cada gema se enciende cuando la linea de progreso la alcanza */
+  items.forEach(function(item){
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 62%',
+      onEnter:     function(){ item.classList.add('is-lit'); },
+      onLeaveBack: function(){ item.classList.remove('is-lit'); }
+    });
   });
 
   items.forEach(function(item){
@@ -1665,6 +1876,76 @@ function copyText(elId, btnId, btnEl){
     document.body.appendChild(el); el.select(); document.execCommand('copy'); el.remove(); confirmCopy();
   }
 }
+
+/* ══════════════════════════════════════
+   FLOWER GIRLS — rotacion con fade in/out
+══════════════════════════════════════ */
+(function initFlowerGirls(){
+  var rot = document.getElementById('fgRotator');
+  if(!rot) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var names = rot.querySelectorAll('.fg-name');
+  if(names.length < 2) return;
+  var i = 0, timer = null;
+
+  function step(){
+    names[i].classList.remove('is-active');
+    i = (i + 1) % names.length;
+    names[i].classList.add('is-active');
+  }
+  /* Solo rota mientras la seccion esta a la vista: no gasta ciclos ni deja al
+     invitado con un nombre a medio camino cuando vuelve. */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        if(!timer) timer = setInterval(step, 2200);
+      } else {
+        clearInterval(timer); timer = null;
+      }
+    });
+  }, {threshold:.25});
+  io.observe(rot);
+})();
+
+/* ══════════════════════════════════════
+   RSVP — entrada animada (formato boda-jennifer)
+══════════════════════════════════════ */
+function initRsvpMotion(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.fromTo('.rsvp-card',
+    {opacity:0, y:40, scale:.97},
+    {opacity:1, y:0, scale:1, duration:1.2, ease:'power4.out',
+     scrollTrigger:{trigger:'.rsvp-card', start:'top 85%'}});
+  gsap.fromTo('.rsvp-ornament',
+    {opacity:0, scaleX:0},
+    {opacity:1, scaleX:1, duration:1.2, ease:'power3.out',
+     scrollTrigger:{trigger:'.rsvp-card', start:'top 85%'}});
+  /* Solo opacidad: las esquinas ya usan transform (scaleX/scaleY -1) para
+     voltearse, y animar scale con GSAP lo sobreescribe y las desorienta. */
+  gsap.fromTo('.rsvp-corner',
+    {opacity:0},
+    {opacity:1, duration:.9, stagger:.08, ease:'power2.out',
+     scrollTrigger:{trigger:'.rsvp-card', start:'top 85%'}});
+  gsap.fromTo('.rsvp-deadline',
+    {opacity:0, letterSpacing:'1em'},
+    {opacity:1, letterSpacing:'normal', duration:1,
+     scrollTrigger:{trigger:'.rsvp-deadline', start:'top 92%'}});
+}
+
+/* ══════════════════════════════════════
+   LLUVIA DE SOBRES — sobre interactivo
+══════════════════════════════════════ */
+(function(){
+  var btn = document.querySelector('.env-interactive');
+  if(!btn) return;
+  function toggle(){
+    var isOpen = btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+  btn.addEventListener('click', toggle);
+  btn.addEventListener('touchstart', function(e){ e.preventDefault(); toggle(); }, {passive:false});
+})();
 
 /* ══════════════════════════════════════
    PHOTO MOMENTS — scroll reveal inline
