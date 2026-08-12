@@ -81,18 +81,28 @@ body{
   color:var(--gold-light);display:block;letter-spacing:6px;margin:2px 0;
 }
 .hero-badge{
-  display:inline-flex;align-items:center;gap:12px;padding:8px 24px;
-  border:1px solid rgba(209,157,1,.5);border-radius:30px;
-  background:rgba(45,45,45,.4);backdrop-filter:blur(4px);
+  display:inline-flex;align-items:center;gap:12px;padding:9px 26px;
+  border:1px solid rgba(215,215,215,.55);border-radius:30px;
+  background:rgba(30,30,30,.42);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05);
   transform:translateY(16px);opacity:0;
+  animation:badgeGlow 2.8s ease-in-out infinite;
+}
+@keyframes badgeGlow{
+  0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05);}
+  50%{box-shadow:0 4px 28px rgba(255,255,255,.2),inset 0 0 0 1px rgba(255,255,255,.12);}
 }
 .hero-badge span{
   font-family:'Cormorant Garamond',serif;font-size:15px;letter-spacing:5px;
-  text-transform:uppercase;
-  background:linear-gradient(135deg,#c8c8c8 0%,#f0f0f0 40%,#a8a8a8 60%,#e8e8e8 80%,#c0c0c0 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  font-weight:600;
+  text-transform:uppercase;font-weight:600;
+  background-image:linear-gradient(115deg,
+    #9a9a9a 0%,#c8c8c8 10%,#e8e8e8 20%,#f5f5f5 27%,#ffffff 32%,#f5f5f5 37%,
+    #e8e8e8 46%,#c8c8c8 58%,#e8e8e8 70%,#f0f0f0 80%,#c8c8c8 90%,#9a9a9a 100%);
+  background-size:260% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:silverShine 3.4s linear infinite;
 }
+@media(prefers-reduced-motion:reduce){.hero-badge,.hero-badge span{animation:none;}}
 
 /* ── ORNAMENTO ── */
 .orn{display:flex;justify-content:center;padding:10px 0;}
@@ -124,7 +134,40 @@ body{
 /* ── SECCIONES ── */
 section{padding:60px 26px;}
 .eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:8px;}
-.sec-title{font-family:'Great Vibes',cursive;font-size:52px;color:var(--dark);text-align:center;line-height:1.1;margin-bottom:30px;}
+
+/* ── BRILLO METÁLICO PLATA (barrido izq→der) ──
+   Version fondo claro: el pico del barrido llega solo a un gris medio (#b8b8b8),
+   nunca a blanco — así el texto nunca se diluye contra el blanco/crema del sitio.
+   Version fondo oscuro: el pico sí llega a blanco, porque contrasta contra la
+   foto/overlay oscuro del hero en vez de perderse. */
+.sec-title,.mensaje-firma,footer .fn{
+  /* El pico del barrido se topa en #8a8a8a (3.45:1 sobre blanco, suficiente
+     para texto grande). Un plateado mas claro se diluye contra el fondo. */
+  background-image:linear-gradient(100deg,
+    #3a3a3a 0%,#4a4a4a 10%,#5e5e5e 20%,#767676 27%,#8a8a8a 32%,#767676 37%,
+    #666666 46%,#3a3a3a 58%,#5e5e5e 70%,#7e7e7e 80%,#4a4a4a 90%,#3a3a3a 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:silverShine 5s linear infinite;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));
+  padding-left:.14em;padding-right:.14em;margin-left:-.14em;margin-right:-.14em;
+}
+.hero-names{
+  background-image:linear-gradient(100deg,
+    #9a9a9a 0%,#c8c8c8 10%,#e8e8e8 20%,#f5f5f5 27%,#ffffff 32%,#f5f5f5 37%,
+    #e8e8e8 46%,#c8c8c8 58%,#e8e8e8 70%,#f0f0f0 80%,#c8c8c8 90%,#9a9a9a 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:none;
+  animation:silverShine 5s linear infinite;
+  filter:drop-shadow(0 0 12px rgba(255,255,255,.4)) drop-shadow(0 2px 8px rgba(0,0,0,.5));
+}
+@media(prefers-reduced-motion:reduce){
+  .sec-title,.mensaje-firma,footer .fn,.hero-names{animation:none;}
+}
+.sec-title{font-family:'Great Vibes',cursive;font-size:52px;text-align:center;line-height:1.1;margin-bottom:30px;}
 
 /* ── MENSAJE ESPECIAL ── */
 .mensaje-card{
@@ -292,20 +335,44 @@ section{padding:60px 26px;}
 }
 @media(prefers-reduced-motion:reduce){
   .photo-moment img{animation:none!important;}
+  .photo-moment::after{animation:none!important;opacity:0!important;}
 }
-.photo-moment{width:100%;line-height:0;}
+.photo-moment{width:100%;line-height:0;position:relative;overflow:hidden;}
 .photo-moment img{
   width:100%;height:auto;display:block;
   animation:levitate 5s ease-in-out infinite;
 }
-.photo-moment--portrait{padding:0 26px;}
+/* Barrido de luz diagonal lento sobre cada foto. Va en ::after del wrapper
+   (no del img) porque el img ya tiene la animacion de levitacion. */
+.photo-moment::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(115deg,
+    transparent 0%,transparent 38%,
+    rgba(255,255,255,.10) 45%,rgba(255,255,255,.30) 50%,rgba(255,255,255,.10) 55%,
+    transparent 62%,transparent 100%);
+  background-size:280% 100%;background-repeat:no-repeat;
+  animation:photoFlush 9s ease-in-out infinite;
+}
+@keyframes photoFlush{
+  0%{background-position:180% 0;}
+  55%,100%{background-position:-80% 0;}
+}
+.photo-moment--portrait{padding:0 26px;overflow:visible;}
 .photo-moment--portrait img{
   max-width:320px;display:block;margin:0 auto;border-radius:20px;
   box-shadow:0 16px 56px rgba(45,45,45,.18);
   animation:levitate 6s ease-in-out infinite;
 }
+/* En portrait la foto no ocupa todo el wrapper: el brillo se recorta a la
+   caja real de la imagen y hereda su radio. */
+.photo-moment--portrait::after{
+  left:50%;transform:translateX(-50%);width:min(320px,calc(100% - 52px));
+  border-radius:20px;overflow:hidden;
+}
 .photo-moment:nth-child(odd) img{animation-duration:5.5s;}
 .photo-moment:nth-child(even) img{animation-duration:6.5s;animation-delay:.8s;}
+.photo-moment:nth-child(even)::after{animation-delay:2.4s;}
+.photo-moment:nth-child(3n)::after{animation-duration:11s;animation-delay:4.2s;}
 
 /* ── MESA DE REGALOS ── */
 .gift-grid{display:flex;flex-direction:column;gap:16px;}
@@ -336,6 +403,17 @@ section{padding:60px 26px;}
 .hotel-name{font-family:'Great Vibes',cursive;font-size:36px;color:var(--dark);margin-bottom:10px;}
 .hotel-tip{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:500;color:var(--text);line-height:1.8;margin-bottom:14px;}
 .hotel-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+/* Pill outline con icono (formato boda-roxana-y-omar), en la paleta dorada */
+.btn-hosp{
+  display:inline-flex;align-items:center;gap:8px;padding:11px 22px;
+  border:1.5px solid var(--gold);border-radius:50px;color:var(--gold);
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:15px;font-weight:600;letter-spacing:.5px;
+  text-decoration:none;background:transparent;
+  transition:background .25s,color .25s,border-color .25s;
+}
+.btn-hosp:hover{background:var(--gold);color:#fff;border-color:transparent;}
+.btn-hosp svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
 /* ── CARD INVITADO ── */
 #invitado-card{
@@ -585,15 +663,42 @@ footer .fc a{color:inherit;text-decoration:none;}
 #env-flash{position:fixed;inset:0;background:#fff;z-index:9999;opacity:0;pointer-events:none;}
 .envelope-hint{
   position:absolute;bottom:52px;left:50%;transform:translateX(-50%);
-  font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:5px;text-transform:uppercase;
-  color:rgba(234,210,140,0.85);opacity:0;cursor:pointer;white-space:nowrap;z-index:10;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 28px;border-radius:30px;
+  border:1px solid rgba(225,225,225,.7);
+  /* alpha alto a propósito: el sobre es crema claro y con .42 el punto oscuro
+     del barrido plateado caía a 1.02:1 de contraste (invisible). */
+  background:rgba(18,18,18,.72);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  box-shadow:0 6px 26px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.08);
+  font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;font-weight:600;
+  opacity:0;cursor:pointer;white-space:nowrap;z-index:10;
+  animation:hintGlow 2.6s ease-in-out infinite;
 }
-.envelope-hint::after{
-  content:'';display:block;width:32px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(209,157,1,0.7),transparent);
-  margin:10px auto 0;animation:hintPulse 2.2s ease-in-out infinite;
+.envelope-hint .eh-txt{
+  /* el piso del degradado no baja de #c8c8c8 → 4.9:1 incluso en la fase mas oscura */
+  background:linear-gradient(115deg,#c8c8c8 0%,#f5f5f5 22%,#e8e8e8 40%,#ffffff 50%,#e8e8e8 60%,#f5f5f5 78%,#c8c8c8 100%);
+  background-size:260% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:silverShine 3.2s linear infinite;
 }
-@keyframes hintPulse{0%,100%{opacity:.4;width:32px;}50%{opacity:1;width:54px;}}
+.envelope-hint .eh-dot{
+  width:5px;height:5px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle,#ffffff 0%,#b8b8b8 65%,#7a7a7a 100%);
+  box-shadow:0 0 8px rgba(255,255,255,.7);
+  animation:hintDot 2.6s ease-in-out infinite;
+}
+@keyframes hintGlow{
+  0%,100%{box-shadow:0 6px 26px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.05);transform:translateX(-50%) scale(1);}
+  50%{box-shadow:0 6px 34px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.14);transform:translateX(-50%) scale(1.035);}
+}
+@keyframes silverShine{
+  0%{background-position:220% 0;}
+  100%{background-position:-60% 0;}
+}
+@keyframes hintDot{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+@media(prefers-reduced-motion:reduce){
+  .envelope-hint,.envelope-hint .eh-txt,.envelope-hint .eh-dot{animation:none;}
+}
 #loader{display:none;}
 </style>
 </head>
@@ -603,7 +708,7 @@ footer .fc a{color:inherit;text-decoration:none;}
 <div id="envelope-screen" role="button" aria-label="Toca para abrir tu invitación">
   <img id="env-image" src="./sobre.png" alt="Invitación Anabel y Salvador">
   <video id="env-video" src="./sobre-apertura.mp4" playsinline webkit-playsinline muted preload="auto"></video>
-  <p class="envelope-hint" id="env-hint">Toca para abrir</p>
+  <p class="envelope-hint" id="env-hint"><span class="eh-dot"></span><span class="eh-txt">Toca para Abrir</span></p>
 </div>
 <div id="env-flash"></div>
 
@@ -624,7 +729,7 @@ footer .fc a{color:inherit;text-decoration:none;}
         Salvador
       </h1>
       <div class="hero-badge" id="hBd">
-        <span>Nos Casamos</span>
+        <span>Boda de Plata</span>
       </div>
     </div>
   </section>
@@ -911,7 +1016,7 @@ footer .fc a{color:inherit;text-decoration:none;}
 
   <!-- FOTO 4 — post-familia -->
   <div class="photo-moment rv">
-    <img src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786375538318-4.png" alt="Anabel y Salvador" loading="lazy">
+    <img src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/foto-grupal-editada.jpg" alt="Anabel y Salvador con su familia" loading="lazy">
   </div>
 
   <!-- ORNAMENTO -->
@@ -972,13 +1077,22 @@ footer .fc a{color:inherit;text-decoration:none;}
     <h2 class="sec-title">Hospedaje</h2>
 
     <div class="hotel-card rv">
+      <div class="hotel-photo">
+        <img src="./hotel-courtyard.jpg" alt="Courtyard by Marriott Redwood City" loading="lazy">
+      </div>
       <div class="hotel-name">Courtyard Redwood City</div>
       <div class="hotel-tip">
         Al reservar menciona que eres invitado/a a la boda de <em>Anabel y Salvador</em>.
       </div>
       <div class="hotel-links">
-        <a class="btn" href="https://www.marriott.com" target="_blank" rel="noopener">Sitio Web</a>
-        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Courtyard%20Redwood%20City%2C%20600%20Bair%20Island%20Rd%2C%20Redwood%20City%2C%20CA%2094063" target="_blank" rel="noopener">Ver en Mapa</a>
+        <a class="btn-hosp" href="https://www.marriott.com/en-us/hotels/sford-courtyard-redwood-city/overview/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18a15 15 0 010-18z"/></svg>
+          Sitio Web
+        </a>
+        <a class="btn-hosp" href="https://www.google.com/maps/search/?api=1&query=Courtyard%20Redwood%20City%2C%20600%20Bair%20Island%20Rd%2C%20Redwood%20City%2C%20CA%2094063" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Cómo Llegar
+        </a>
       </div>
     </div>
   </section>

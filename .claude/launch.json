@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "boda-adry-y-heri",
+      "name": "boda-anabel-y-salvador",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-l", "3491", "."],
       "port": 3491
