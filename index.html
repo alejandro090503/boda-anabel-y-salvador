@@ -24,17 +24,22 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
 body{
-  font-family:'Montserrat',sans-serif;font-weight:400;font-size:16px;
-  color:#2d2d2d;background:#FFFFFF;line-height:1.6;overflow-x:hidden;
+  font-family:'Montserrat',sans-serif;font-weight:500;font-size:17px;
+  color:#4a3800;background:#e4e4e4;line-height:1.6;overflow-x:hidden;
 }
 :root{
-  --bg:#FFFFFF;
-  --accent:#707070;
-  --dark:#2d2d2d;
-  --text:#3a3a3a;
-  --surface:#d4d4d4;
-  --card:#FFFFFF;
-  --gold:#d19d01;
+  /* Fondo plateado + letras doradas (peticion de los novios).
+     El dorado del cliente (#d19d01) sobre plata da 1.8:1 y es ilegible, asi que
+     los titulos grandes usan #8a6801 (4.2:1) y el texto de lectura #6f5401
+     (5.8:1). El #d19d01 se conserva solo en filetes y adornos, nunca en texto. */
+  --bg:#e4e4e4;
+  --accent:#6f5401;
+  --dark:#5c4600;
+  --text:#4a3800;
+  --surface:#cfcfcf;
+  --card:#f2f2f2;
+  --gold:#8a6801;
+  --gold-bright:#d19d01;
   --gold-light:#ead28c;
   /* Plata: identidad principal de una boda de plata. El dorado del cliente
      queda como acento calido, la plata como material. */
@@ -43,7 +48,8 @@ body{
   --silver-deep:#5e5e5e;
   --silver-hair:rgba(150,150,150,.42);
 }
-.wrap{max-width:430px;margin:0 auto;background:var(--bg);position:relative;overflow:clip;z-index:1;}
+.wrap{max-width:430px;margin:0 auto;position:relative;overflow:clip;z-index:1;
+  background:linear-gradient(160deg,#eeeeee 0%,#dedede 22%,#e9e9e9 45%,#d6d6d6 70%,#ececec 100%);}
 
 /* ── STARS ── */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
@@ -66,14 +72,14 @@ body{
     rgba(45,45,45,0.05) 30%,
     rgba(45,45,45,0.45) 62%,
     rgba(45,45,45,0.88) 82%,
-    #FFFFFF 100%
+    #e9e9e9 100%
   );
 }
 .hero-bottom{position:relative;z-index:3;margin-top:auto;padding:0 28px 60px;text-align:center;}
 .hero-eyebrow{
   font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:17px;letter-spacing:4px;text-transform:uppercase;
-  color:#ffffff;margin-bottom:12px;opacity:0;
+  font-size:22px;letter-spacing:4px;text-transform:uppercase;
+  color:#ffffff;margin-bottom:14px;opacity:0;font-weight:600;
   text-shadow:0 1px 8px rgba(0,0,0,.45);
 }
 .hero-names{
@@ -135,11 +141,11 @@ body{
 .fecha-line{display:flex;align-items:center;justify-content:center;gap:16px;}
 .fecha-line .fl-bar{flex:1;max-width:60px;height:1px;background:linear-gradient(to right,transparent,var(--silver));opacity:.7;}
 .fecha-line .fl-bar.right{background:linear-gradient(to left,transparent,var(--silver));}
-.fecha-txt{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:16px;letter-spacing:6px;text-transform:uppercase;color:var(--dark);}
+.fecha-txt{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:26px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);}
 
 /* ── SECCIONES ── */
 section{padding:60px 26px;}
-.eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:8px;}
+.eyebrow{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:600;letter-spacing:5px;text-transform:uppercase;color:var(--gold);text-align:center;margin-bottom:8px;}
 
 /* ── BRILLO METÁLICO PLATA (barrido izq→der) ──
    Version fondo claro: el pico del barrido llega solo a un gris medio (#b8b8b8),
@@ -147,11 +153,11 @@ section{padding:60px 26px;}
    Version fondo oscuro: el pico sí llega a blanco, porque contrasta contra la
    foto/overlay oscuro del hero en vez de perderse. */
 .sec-title,.mensaje-firma,footer .fn{
-  /* El pico del barrido se topa en #8a8a8a (3.45:1 sobre blanco, suficiente
-     para texto grande). Un plateado mas claro se diluye contra el fondo. */
+  /* Barrido DORADO sobre fondo plata. El pico se topa en #a37c01 (3.0:1) para
+     que un titulo grande siga siendo legible; mas claro se diluye en la plata. */
   background-image:linear-gradient(100deg,
-    #3a3a3a 0%,#4a4a4a 10%,#5e5e5e 20%,#767676 27%,#8a8a8a 32%,#767676 37%,
-    #666666 46%,#3a3a3a 58%,#5e5e5e 70%,#7e7e7e 80%,#4a4a4a 90%,#3a3a3a 100%);
+    #4a3800 0%,#5c4600 10%,#6f5401 20%,#8a6801 27%,#a37c01 32%,#8a6801 37%,
+    #7d6001 46%,#4a3800 58%,#6f5401 70%,#967000 80%,#5c4600 90%,#4a3800 100%);
   background-size:300% 100%;
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;color:transparent;
@@ -173,7 +179,7 @@ section{padding:60px 26px;}
 @media(prefers-reduced-motion:reduce){
   .sec-title,.mensaje-firma,footer .fn,.hero-names{animation:none;}
 }
-.sec-title{font-family:'Great Vibes',cursive;font-size:52px;text-align:center;line-height:1.1;margin-bottom:30px;}
+.sec-title{font-family:'Great Vibes',cursive;font-size:60px;text-align:center;line-height:1.1;margin-bottom:30px;}
 
 /* ── MENSAJE ESPECIAL ── */
 .mensaje-card{
@@ -183,7 +189,7 @@ section{padding:60px 26px;}
 }
 .mensaje-texto{
   font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:18px;line-height:1.9;color:var(--text);
+  font-size:21px;line-height:1.85;color:var(--text);
   font-weight:500;
 }
 .mensaje-firma{
@@ -194,8 +200,8 @@ section{padding:60px 26px;}
 /* ── COUNTDOWN ── */
 .cd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .cd-box{background:var(--card);border-radius:14px;padding:20px 4px;text-align:center;box-shadow:0 6px 36px rgba(45,45,45,.08);border-top:2px solid var(--silver-light);}
-.cd-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--dark);line-height:1;font-weight:600;font-variant-numeric:tabular-nums;}
-.cd-lbl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:6px;font-weight:500;}
+.cd-num{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--dark);line-height:1;font-weight:600;font-variant-numeric:tabular-nums;}
+.cd-lbl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:6px;font-weight:500;}
 
 /* ── UBICACIÓN ── */
 .loc-card{
@@ -204,9 +210,9 @@ section{padding:60px 26px;}
   border-left:3px solid var(--silver-light);
 }
 .loc-card .lt{font-family:'Great Vibes',cursive;font-size:42px;color:var(--dark);margin-bottom:4px;}
-.loc-card .ls{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
-.loc-card p{font-size:15px;font-weight:500;margin:3px 0;line-height:1.6;color:var(--text);}
-.loc-card .lh{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--dark);letter-spacing:3px;margin-top:10px;}
+.loc-card .ls{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.loc-card p{font-size:18px;font-weight:600;margin:3px 0;line-height:1.6;color:var(--text);}
+.loc-card .lh{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--dark);letter-spacing:3px;margin-top:10px;}
 .btn{
   display:inline-block;margin-top:16px;padding:13px 30px;
   background:var(--dark);color:#fff;border-radius:30px;
@@ -294,20 +300,20 @@ section{padding:60px 26px;}
 }
 .itv3-ev{
   font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:15px;font-weight:500;color:rgba(45,45,45,0.65);
+  font-size:18px;font-weight:600;color:#4a3800;
   letter-spacing:3px;text-transform:uppercase;line-height:1.5;
   text-indent:3px;
 }
 .itv3-sub{
   font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:13px;font-weight:500;color:var(--gold);opacity:.85;
+  font-size:15px;font-weight:500;color:var(--gold);opacity:.85;
   letter-spacing:1px;margin-top:4px;line-height:1.4;
 }
 .itv3-item:last-child{padding-bottom:10px;}
 
 /* ── DRESS CODE ── */
-.dc-note{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--dark);margin-bottom:8px;}
-.dc-warn{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:500;color:var(--gold);margin-bottom:26px;letter-spacing:1px;}
+.dc-note{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--dark);margin-bottom:8px;}
+.dc-warn{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:600;color:var(--gold);margin-bottom:26px;letter-spacing:1px;}
 .dc-figures{display:flex;align-items:stretch;justify-content:center;gap:0;margin-top:6px;}
 .dc-fig{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px 10px 14px;}
 .dc-divider{
@@ -322,11 +328,11 @@ section{padding:60px 26px;}
 }
 @media(max-width:380px){.dc-fig-img{height:160px;}}
 .dc-fig-name{
-  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;
+  font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;
   color:var(--dark);letter-spacing:3px;margin-top:16px;text-transform:uppercase;
 }
 .dc-fig-hint{
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;font-weight:600;
   color:var(--gold);letter-spacing:1.5px;margin-top:5px;text-align:center;line-height:1.55;
 }
 #sdc{position:relative;overflow:hidden;}
@@ -349,25 +355,11 @@ section{padding:60px 26px;}
 
 /* ── FAMILIA ── */
 .fam{display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center;}
-.fam-g .role{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
-.fam-g .names{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--dark);line-height:1.7;}
+.fam-g .role{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.fam-g .names{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:600;color:var(--dark);line-height:1.7;}
 .amp{font-style:italic;font-size:16px;color:var(--gold);}
 .flor{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--silver);opacity:.75;letter-spacing:10px;}
 
-/* ── FLOWER GIRLS · una por una con fade ──
-   Altura fija reservada: los nombres se apilan en la misma caja para que el
-   layout no salte al cambiar de nombre (CLS = 0). */
-.fg-rotator{position:relative;height:2.1em;}
-.fg-name{
-  position:absolute;left:0;right:0;top:0;
-  opacity:0;transform:translateY(6px);
-  transition:opacity .7s ease,transform .7s ease;
-  pointer-events:none;
-}
-.fg-name.is-active{opacity:1;transform:translateY(0);}
-@media(prefers-reduced-motion:reduce){
-  .fg-rotator{height:auto;}
-  .fg-name{position:static;opacity:1;transform:none;transition:none;display:block;}
 }
 
 /* ── PHOTO MOMENTS (fotos editoriales inline) ── */
@@ -447,7 +439,7 @@ section{padding:60px 26px;}
 /* ── HOSPEDAJE ── */
 .hotel-card{background:var(--card);border-radius:18px;padding:30px 24px;box-shadow:0 6px 36px rgba(45,45,45,.08);text-align:center;border-top:2px solid var(--gold);margin-bottom:18px;}
 .hotel-name{font-family:'Great Vibes',cursive;font-size:36px;color:var(--dark);margin-bottom:10px;}
-.hotel-tip{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;font-weight:500;color:var(--text);line-height:1.8;margin-bottom:14px;}
+.hotel-tip{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;font-weight:600;color:var(--text);line-height:1.8;margin-bottom:14px;}
 .hotel-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 /* Pill outline con icono (formato boda-roxana-y-omar), en la paleta dorada */
 .btn-hosp{
@@ -499,8 +491,8 @@ section{padding:60px 26px;}
 .rsvp-corner--br{bottom:0;right:0;transform:scale(-1,-1);}
 .rsvp-ornament{display:block;margin:0 auto 22px;width:min(260px,72vw);height:auto;}
 .rsvp-text{
-  font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;
-  color:var(--text);line-height:1.85;margin-bottom:22px;text-align:center;
+  font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;
+  color:var(--text);line-height:1.8;margin-bottom:22px;text-align:center;
 }
 .rsvp-divider{display:flex;align-items:center;gap:14px;margin:0 auto 24px;max-width:280px;}
 .rsvp-divider::before,.rsvp-divider::after{
@@ -580,7 +572,7 @@ section{padding:60px 26px;}
   background-position:100% 0;transform:translateY(-2px);
   box-shadow:0 8px 30px rgba(209,157,1,.45);
 }
-.rsvp-deadline{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:500;color:var(--gold);margin-top:14px;opacity:.85;}
+.rsvp-deadline{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:600;color:var(--gold);margin-top:14px;opacity:.85;}
 .rsvp-select{
   width:100%;padding:14px 16px;min-height:48px;margin-bottom:8px;
   border:1px solid rgba(45,45,45,.2);border-radius:10px;
@@ -596,7 +588,7 @@ section{padding:60px 26px;}
 /* ── FOOTER ── */
 footer{padding:50px 20px;text-align:center;}
 footer .fn{font-family:'Great Vibes',cursive;font-size:52px;color:var(--dark);}
-footer .fd{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-top:6px;}
+footer .fd{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-top:6px;}
 footer .fc{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:400;letter-spacing:2px;color:var(--text);opacity:.45;margin-top:18px;}
 footer .fc a{color:inherit;text-decoration:none;}
 
@@ -736,7 +728,7 @@ footer .fc a{color:inherit;text-decoration:none;}
 .env-interactive.open .env-open-content{max-height:260px;opacity:1;pointer-events:auto;}
 .env-mailbox-icon{width:40px;height:40px;color:var(--gold);margin-top:10px;}
 .env-title{font-family:'Great Vibes',cursive;font-size:32px;color:var(--dark);line-height:1.2;}
-.env-desc{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:500;font-style:italic;color:var(--text);line-height:1.75;}
+.env-desc{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;color:var(--text);line-height:1.75;}
 .env-tap-hint{
   font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:600;
   letter-spacing:3px;text-transform:uppercase;color:var(--gold);
@@ -911,7 +903,10 @@ footer .fc a{color:inherit;text-decoration:none;}
     <h2 class="sec-title">Nuestro Mensaje</h2>
     <div class="mensaje-card">
       <p class="mensaje-texto">
-        "Con inmensa alegría los invitamos a acompañarnos en el día en que unimos nuestras vidas para siempre. Su presencia es el regalo más importante para nosotros en este nuevo comienzo."
+        Señor Dios,<br><br>
+        Hoy vemos hacia atrás y nuestro corazón está lleno de ti. Gracias por estos 25 años de matrimonio. Tú fuiste el centro del pacto desde el primer día.<br><br>
+        Gracias por darnos la fuerza para superar los días difíciles y la alegría para celebrar los buenos.<br><br>
+        Bendice nuestra vida juntos y quédate con nosotros por los años que vengan.
       </p>
       <span class="mensaje-firma">Anabel &amp; Salvador</span>
     </div>
@@ -959,16 +954,16 @@ footer .fc a{color:inherit;text-decoration:none;}
     <div class="loc-card rv" id="lc2">
       <div class="lt">Recepción</div>
       <div class="ls">Bienvenida de Invitados</div>
-      <div class="lh">4:00 pm</div>
-      <p style="margin-top:10px;">Wyndham Garden San Jose Airport<br>1355 N Fourth St, San Jose, CA 95112</p>
+      <div class="lh">3:30 pm</div>
+      <p style="margin-top:10px;">Uptown Oasis San José<br>1355 N. Fourth St, San Jose, CA 95112</p>
       <div class="map-wrap">
         <iframe
-          src="https://maps.google.com/maps?q=Wyndham+Garden+San+Jose+Airport+1355+N+Fourth+St+San+Jose+CA+95112&output=embed&z=16"
+          src="https://maps.google.com/maps?q=1355+N+Fourth+St+San+Jose+CA+95112&output=embed&z=16"
           width="100%" height="200" style="border:0;" loading="lazy"
           allowfullscreen referrerpolicy="no-referrer-when-downgrade"
-          title="Wyndham Garden San Jose Airport"></iframe>
+          title="Uptown Oasis San José"></iframe>
       </div>
-      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Wyndham%20Garden%20San%20Jose%20Airport%2C%201355%20N%20Fourth%20St%2C%20San%20Jose%2C%20CA%2095112" target="_blank" rel="noopener">Cómo Llegar</a>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Uptown%20Oasis%20San%20Jose%2C%201355%20N%20Fourth%20St%2C%20San%20Jose%2C%20CA%2095112" target="_blank" rel="noopener">Cómo Llegar</a>
     </div>
   </section>
 
@@ -1065,14 +1060,14 @@ footer .fc a{color:inherit;text-decoration:none;}
     <h2 class="sec-title">Dress Code</h2>
     <div class="dc-note">Formal</div>
     <div class="dc-warn">✦ &nbsp; Reservar el blanco para la novia &nbsp; ✦</div>
-    <div class="dc-warn">Evitar tonos crema/marfil y azul claro</div>
+    <div class="dc-warn">Evitar tonos crema, azules y grises</div>
     <div class="dc-figures" id="dcFigs">
 
       <!-- Caballero -->
       <div class="dc-fig">
         <img class="dc-fig-img" src="./caballero.png" alt="Caballero con traje formal" loading="lazy" width="300" height="610">
         <div class="dc-fig-name">Caballero</div>
-        <div class="dc-fig-hint">Traje Formal<br>Corbata o Moño</div>
+        <div class="dc-fig-hint">Traje Formal<br>Corbata</div>
       </div>
 
       <div class="dc-divider" aria-hidden="true"></div>
@@ -1109,28 +1104,18 @@ footer .fc a{color:inherit;text-decoration:none;}
     <h2 class="sec-title rv">Nuestra Familia</h2>
     <div class="fam">
       <div class="fam-g rv">
-        <div class="role">Padres del Novio</div>
-        <div class="names">Por Confirmar</div>
-      </div>
-      <div class="flor rv">✦ &nbsp; ✦ &nbsp; ✦</div>
-      <div class="fam-g rv">
-        <div class="role">Padres de la Novia</div>
-        <div class="names">Por Confirmar</div>
-      </div>
-      <div class="flor rv">✦ &nbsp; ✦ &nbsp; ✦</div>
-      <div class="fam-g rv">
         <div class="role">Madrinas de Honor</div>
         <div class="names">Frida <span class="amp">&amp;</span> Nia Puga</div>
       </div>
       <div class="flor rv">✦ &nbsp; ✦ &nbsp; ✦</div>
       <div class="fam-g rv">
         <div class="role">Flower Girls</div>
-        <div class="names fg-rotator" id="fgRotator" aria-live="polite">
-          <span class="fg-name is-active">Daniella Rosales</span>
-          <span class="fg-name">Tiana Rosales</span>
-          <span class="fg-name">Sienna Bailey</span>
-          <span class="fg-name">Alessandra Rosales</span>
-          <span class="fg-name">Anaise Rosales</span>
+        <div class="names">
+          Daniella Rosales<br>
+          Tiana Rosales<br>
+          Sienna Bailey<br>
+          Alessandra Rosales<br>
+          Anaise Rosales
         </div>
       </div>
     </div>
@@ -1629,6 +1614,10 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
   function openEnvelope(){
     if(opened) return;
     opened = true;
+    /* La musica arranca AQUI, dentro del gesto del usuario: es el unico momento
+       en que el navegador permite reproducir con sonido. Lanzarla despues del
+       video (en launchPage) cae fuera del gesto y iOS/Android la bloquean. */
+    startMusic();
     gsap.killTweensOf([envImage, hint]);
     gsap.to(hint, {opacity:0, duration:0.2});
     var p = envVideo.play();
@@ -1885,36 +1874,6 @@ function copyText(elId, btnId, btnEl){
   }
 }
 
-/* ══════════════════════════════════════
-   FLOWER GIRLS — rotacion con fade in/out
-══════════════════════════════════════ */
-(function initFlowerGirls(){
-  var rot = document.getElementById('fgRotator');
-  if(!rot) return;
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var names = rot.querySelectorAll('.fg-name');
-  if(names.length < 2) return;
-  var i = 0, timer = null;
-
-  function step(){
-    names[i].classList.remove('is-active');
-    i = (i + 1) % names.length;
-    names[i].classList.add('is-active');
-  }
-  /* Solo rota mientras la seccion esta a la vista: no gasta ciclos ni deja al
-     invitado con un nombre a medio camino cuando vuelve. */
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        if(!timer) timer = setInterval(step, 2200);
-      } else {
-        clearInterval(timer); timer = null;
-      }
-    });
-  }, {threshold:.25});
-  io.observe(rot);
-})();
 
 /* ══════════════════════════════════════
    RSVP — entrada animada (formato boda-jennifer)
@@ -1971,7 +1930,7 @@ function initRsvpMotion(){
 /* ══════════════════════════════════════
    MÚSICA
 ══════════════════════════════════════ */
-const MUSIC_START_OFFSET = 17;
+const MUSIC_START_OFFSET = 0;
 const musicEl  = document.getElementById('music');
 const musicBtn = document.getElementById('music-btn');
 
@@ -2008,8 +1967,11 @@ if(musicBtn){
 }
 function tryAutoMusic(){
   if(!musicEl) return;
-  setMusicStart();
   showMusicBtn();
+  /* Si ya sonaba desde el gesto de apertura del sobre, no la reinicies: volver
+     a fijar currentTime la cortaria a los pocos segundos de haber empezado. */
+  if(!musicEl.paused) return;
+  setMusicStart();
   var p = musicEl.play();
   if(p && typeof p.catch === 'function'){
     p.catch(function(){
