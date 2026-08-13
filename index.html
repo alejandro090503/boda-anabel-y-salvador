@@ -60,15 +60,47 @@ body{
 
 /* ── HERO ── */
 .hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#2d2d2d;}
+/* El raso se mueve con un Ken Burns lento (zoom + deriva). Va en transform, que
+   la GPU compone sola: no cuesta ancho de banda ni bateria como un video. */
 .hero-bg{
-  position:absolute;inset:0;
+  position:absolute;inset:-6%;
   background:url('./hero-plata.jpg') center center/cover no-repeat;
+  will-change:transform;
+  animation:heroDrift 26s ease-in-out infinite alternate;
+}
+@keyframes heroDrift{
+  0%  {transform:scale(1.06) translate3d(0,0,0);}
+  50% {transform:scale(1.13) translate3d(-1.5%,-1%,0);}
+  100%{transform:scale(1.08) translate3d(1.5%,-2%,0);}
+}
+/* Destello metalico que recorre el raso: es lo que da la sensacion de plata viva */
+/* z-index 1: debe quedar DEBAJO del velo, si no aclara justo la franja donde
+   caen los nombres y les tumba el contraste. */
+.hero-sheen{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(115deg,
+    transparent 30%,
+    rgba(255,255,255,.16) 42%,
+    rgba(255,255,255,.30) 48%,
+    rgba(255,255,255,.16) 54%,
+    transparent 66%);
+  background-size:260% 100%;
+  animation:heroSheen 7.5s linear infinite;
+  mix-blend-mode:screen;
+}
+@keyframes heroSheen{
+  0%  {background-position:200% 0;}
+  100%{background-position:-60% 0;}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-bg{animation:none;inset:0;}
+  .hero-sheen{animation:none;opacity:.25;}
 }
 /* Velo: arriba casi limpio para que el raso plateado luzca, y oscuro donde caen
    los nombres — el dorado sobre plata clara da 1.4:1 y seria ilegible. Con el
    velo a ~rgba(38,38,38,.86) el dorado claro queda en ~7:1. */
 .hero-veil{
-  position:absolute;inset:0;
+  position:absolute;inset:0;z-index:2;
   background:linear-gradient(
     to bottom,
     rgba(48,48,48,0.10) 0%,
@@ -831,6 +863,7 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- HERO -->
   <section class="hero" style="padding:0;">
     <div class="hero-bg"></div>
+    <div class="hero-sheen" aria-hidden="true"></div>
     <div class="hero-veil"></div>
     <div class="hero-bottom">
       <div class="hero-eyebrow" id="hEb">Sábado · 26 de Septiembre · 2026</div>
