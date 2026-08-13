@@ -59,7 +59,9 @@ body{
 }
 
 /* ── HERO ── */
-.hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#2d2d2d;}
+/* overflow:hidden es obligatorio: .hero-bg se sale 6% y ademas escala con el
+   Ken Burns, y sin recorte el raso se derrama debajo del hero. */
+.hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#2d2d2d;overflow:hidden;}
 /* El raso se mueve con un Ken Burns lento (zoom + deriva). Va en transform, que
    la GPU compone sola: no cuesta ancho de banda ni bateria como un video. */
 .hero-bg{
