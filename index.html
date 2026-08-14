@@ -25,14 +25,14 @@
 html{scroll-behavior:smooth;}
 body{
   font-family:'Montserrat',sans-serif;font-weight:500;font-size:17px;
-  color:#4a3800;background:#e4e4e4;line-height:1.6;overflow-x:hidden;
+  color:#4a3800;background:#f4f4f4;line-height:1.6;overflow-x:hidden;
 }
 :root{
   /* Fondo plateado + letras doradas (peticion de los novios).
      El dorado del cliente (#d19d01) sobre plata da 1.8:1 y es ilegible, asi que
      los titulos grandes usan #8a6801 (4.2:1) y el texto de lectura #6f5401
      (5.8:1). El #d19d01 se conserva solo en filetes y adornos, nunca en texto. */
-  --bg:#e4e4e4;
+  --bg:#f4f4f4;
   --accent:#6f5401;
   --dark:#5c4600;
   --text:#4a3800;
@@ -49,7 +49,7 @@ body{
   --silver-hair:rgba(150,150,150,.42);
 }
 .wrap{max-width:430px;margin:0 auto;position:relative;overflow:clip;z-index:1;
-  background:linear-gradient(160deg,#eeeeee 0%,#dedede 22%,#e9e9e9 45%,#d6d6d6 70%,#ececec 100%);}
+  background:linear-gradient(160deg,#fbfbfb 0%,#f1f1f1 22%,#f7f7f7 45%,#eeeeee 70%,#f8f8f8 100%);}
 
 /* ── STARS ── */
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
@@ -61,7 +61,7 @@ body{
 /* ── HERO ── */
 /* overflow:hidden es obligatorio: .hero-bg se sale 6% y ademas escala con el
    Ken Burns, y sin recorte el raso se derrama debajo del hero. */
-.hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#2d2d2d;overflow:hidden;}
+.hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#f4f4f4;overflow:hidden;}
 /* El raso se mueve con un Ken Burns lento (zoom + deriva). Va en transform, que
    la GPU compone sola: no cuesta ancho de banda ni bateria como un video. */
 /* La foto es cuadrada (1125x1110) y el hero es alto y angosto: con `cover` solo
@@ -70,17 +70,19 @@ body{
 .hero-bg{
   position:absolute;inset:-8%;
   background:url('https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786404663959-4.jpeg') center center/cover no-repeat;
-  filter:blur(26px) saturate(.8) brightness(.62);
+  filter:blur(26px) saturate(.72) brightness(1.16);
   will-change:transform;
   animation:heroDrift 30s ease-in-out infinite alternate;
 }
 /* La foto real, sin recorte: object-fit:contain la muestra entera */
 .hero-photo{
-  position:absolute;left:50%;top:7%;transform:translateX(-50%);
-  width:min(92%,400px);max-height:52%;
+  position:absolute;left:50%;top:6%;transform:translateX(-50%);
+  /* max-height 46%: con 52% la foto llegaba al 59% del alto y en pantallas
+     cortas se encimaba con los nombres, que arrancan al 56%. */
+  width:min(92%,400px);max-height:46%;
   object-fit:contain;object-position:center;
   border-radius:14px;z-index:3;
-  box-shadow:0 20px 54px rgba(0,0,0,.5),0 0 0 1px rgba(209,157,1,.25);
+  box-shadow:0 18px 46px rgba(45,45,45,.26),0 0 0 1px rgba(209,157,1,.35);
 }
 @keyframes heroDrift{
   0%  {transform:scale(1.06) translate3d(0,0,0);}
@@ -90,23 +92,29 @@ body{
 @media(prefers-reduced-motion:reduce){
   .hero-bg{animation:none;inset:0;}
 }
-/* Velo: arriba casi limpio para que el raso plateado luzca, y oscuro donde caen
-   los nombres — el dorado sobre plata clara da 1.4:1 y seria ilegible. Con el
-   velo a ~rgba(38,38,38,.86) el dorado claro queda en ~7:1. */
+/* Velo CLARO: aclara el fondo desenfocado y, hacia abajo, lo funde con el plata
+   de la pagina. Al llegar casi opaco (#f4f4f4) los nombres caen sobre una
+   superficie clara y predecible, no sobre la foto: por eso el dorado de los
+   nombres es profundo (#a37c01) y no el brillante, que aqui daria 1.8:1. */
 .hero-veil{
   position:absolute;inset:0;z-index:2;
   background:linear-gradient(
     to bottom,
-    rgba(48,48,48,0.10) 0%,
-    rgba(48,48,48,0.04) 26%,
-    rgba(42,42,42,0.42) 55%,
-    rgba(38,38,38,0.86) 76%,
-    rgba(40,40,40,0.94) 88%,
-    #e9e9e9 100%
+    rgba(255,255,255,0.14) 0%,
+    rgba(252,252,252,0.24) 28%,
+    rgba(250,250,250,0.62) 46%,
+    rgba(246,246,246,0.90) 56%,
+    rgba(244,244,244,0.98) 68%,
+    #f4f4f4 78%
   );
 }
 /* z-index 4: por encima de la foto (3) y del velo (2) */
 .hero-bottom{position:relative;z-index:4;margin-top:auto;padding:0 28px 122px;text-align:center;}
+/* En pantallas bajas (iPhone SE y similares) el bloque de nombres se acerca al
+   borde inferior: asi la foto conserva su tamano y no se pega a los nombres. */
+@media(max-height:720px){
+  .hero-bottom{padding-bottom:60px;}
+}
 .hero-eyebrow{
   font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:22px;letter-spacing:4px;text-transform:uppercase;
@@ -125,22 +133,22 @@ body{
 }
 .hero-badge{
   display:inline-flex;align-items:center;gap:12px;padding:9px 26px;
-  border:1px solid rgba(209,157,1,.55);border-radius:30px;
-  background:rgba(30,30,30,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
-  box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05);
+  border:1px solid rgba(209,157,1,.6);border-radius:30px;
+  background:rgba(255,255,255,.62);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  box-shadow:0 4px 18px rgba(45,45,45,.14),inset 0 0 0 1px rgba(255,255,255,.5);
   transform:translateY(16px);opacity:0;
   animation:badgeGlow 2.8s ease-in-out infinite;
 }
 @keyframes badgeGlow{
-  0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.05);}
-  50%{box-shadow:0 4px 28px rgba(255,255,255,.2),inset 0 0 0 1px rgba(255,255,255,.12);}
+  0%,100%{box-shadow:0 4px 18px rgba(45,45,45,.14),inset 0 0 0 1px rgba(255,255,255,.5);}
+  50%{box-shadow:0 4px 26px rgba(209,157,1,.32),inset 0 0 0 1px rgba(255,255,255,.7);}
 }
 .hero-badge span{
   font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:5px;
   text-transform:uppercase;font-weight:600;
   background-image:linear-gradient(115deg,
-    #b98f26 0%,#d19d01 10%,#e3c162 20%,#f0d98f 27%,#f6e4a8 32%,#f0d98f 37%,
-    #e3c162 46%,#c69a2a 58%,#e3c162 70%,#f0d98f 80%,#d19d01 90%,#b98f26 100%);
+    #4a3800 0%,#5c4600 10%,#6f5401 20%,#8a6801 27%,#a37c01 32%,#8a6801 37%,
+    #7d6001 46%,#4a3800 58%,#6f5401 70%,#967000 80%,#5c4600 90%,#4a3800 100%);
   background-size:260% 100%;
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   animation:silverShine 3.4s linear infinite;
@@ -196,18 +204,19 @@ section{padding:60px 26px;}
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));
   padding-left:.14em;padding-right:.14em;margin-left:-.14em;margin-right:-.14em;
 }
-/* Nombres en DORADO sobre el velo oscuro del raso plateado. Aqui el barrido si
-   puede llegar a dorado claro (#f6e4a8): el fondo es oscuro y gana contraste. */
+/* Nombres en dorado PROFUNDO: el hero ahora es claro, asi que el barrido se topa
+   en #a37c01 (~3.4:1 a 62px) igual que los titulos de seccion. El dorado claro
+   de antes solo funcionaba contra el velo oscuro. */
 .hero-names{
   background-image:linear-gradient(100deg,
-    #b98f26 0%,#d19d01 10%,#e3c162 20%,#f0d98f 27%,#f6e4a8 32%,#f0d98f 37%,
-    #e3c162 46%,#c69a2a 58%,#e3c162 70%,#f0d98f 80%,#d19d01 90%,#b98f26 100%);
+    #4a3800 0%,#5c4600 10%,#6f5401 20%,#8a6801 27%,#a37c01 32%,#8a6801 37%,
+    #7d6001 46%,#4a3800 58%,#6f5401 70%,#967000 80%,#5c4600 90%,#4a3800 100%);
   background-size:300% 100%;
   -webkit-background-clip:text;background-clip:text;
   -webkit-text-fill-color:transparent;
   text-shadow:none;
   animation:silverShine 5s linear infinite;
-  filter:drop-shadow(0 0 14px rgba(209,157,1,.45)) drop-shadow(0 2px 10px rgba(0,0,0,.65));
+  filter:drop-shadow(0 1px 2px rgba(255,255,255,.9)) drop-shadow(0 2px 10px rgba(45,45,45,.18));
 }
 @media(prefers-reduced-motion:reduce){
   .sec-title,.mensaje-firma,footer .fn,.hero-names{animation:none;}
@@ -946,7 +955,7 @@ footer .fc a{color:inherit;text-decoration:none;}
   </section>
 
   <!-- FOTO 1 — cinema post-mensaje -->
-  <div class="photo-moment photo-moment--cinema rv">
+  <div class="photo-moment photo-moment--portrait rv">
     <img src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786404717484-0.jpeg" alt="Anabel y Salvador" loading="lazy">
   </div>
 
@@ -1432,12 +1441,12 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
       var lbl = document.createElement('label');
       lbl.className = 'rsvp-label';
       lbl.setAttribute('for', 'rsvp-n-' + j);
-      lbl.textContent = j === 0 ? 'Nombre Completo' : 'Acompañante ' + j;
+      lbl.textContent = 'Nombre completo del invitado ' + (j + 1);
       var inp = document.createElement('input');
       inp.type = 'text';
       inp.id = 'rsvp-n-' + j;
       inp.className = 'rsvp-nombre-input';
-      inp.placeholder = j === 0 ? 'Tu nombre completo' : 'Nombre completo';
+      inp.placeholder = 'Nombre completo del invitado ' + (j + 1);
       inp.autocomplete = 'name';
       nombresWrap.appendChild(lbl);
       nombresWrap.appendChild(inp);
@@ -1560,7 +1569,7 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
         }
         applyDeadlineFreeze();
       })
-      .catch(function(){ applyDeadlineFreeze(); });
+      .catch(function(err){ console.error('RSVP precarga:', err); applyDeadlineFreeze(); });
   } else {
     applyDeadlineFreeze();
   }
