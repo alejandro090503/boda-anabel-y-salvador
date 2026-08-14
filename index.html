@@ -64,11 +64,23 @@ body{
 .hero{position:relative;width:100%;min-height:100dvh;display:flex;flex-direction:column;background:#2d2d2d;overflow:hidden;}
 /* El raso se mueve con un Ken Burns lento (zoom + deriva). Va en transform, que
    la GPU compone sola: no cuesta ancho de banda ni bateria como un video. */
+/* La foto es cuadrada (1125x1110) y el hero es alto y angosto: con `cover` solo
+   se veia el 46% del ancho y quedaba con un zoom brutal. Por eso van dos capas:
+   esta, desenfocada, solo llena el fondo, y .hero-photo muestra la foto COMPLETA. */
 .hero-bg{
-  position:absolute;inset:-6%;
-  background:url('https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786404663959-4.jpeg') center 28%/cover no-repeat;
+  position:absolute;inset:-8%;
+  background:url('https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786404663959-4.jpeg') center center/cover no-repeat;
+  filter:blur(26px) saturate(.8) brightness(.62);
   will-change:transform;
-  animation:heroDrift 26s ease-in-out infinite alternate;
+  animation:heroDrift 30s ease-in-out infinite alternate;
+}
+/* La foto real, sin recorte: object-fit:contain la muestra entera */
+.hero-photo{
+  position:absolute;left:50%;top:7%;transform:translateX(-50%);
+  width:min(92%,400px);max-height:52%;
+  object-fit:contain;object-position:center;
+  border-radius:14px;z-index:3;
+  box-shadow:0 20px 54px rgba(0,0,0,.5),0 0 0 1px rgba(209,157,1,.25);
 }
 @keyframes heroDrift{
   0%  {transform:scale(1.06) translate3d(0,0,0);}
@@ -93,7 +105,8 @@ body{
     #e9e9e9 100%
   );
 }
-.hero-bottom{position:relative;z-index:3;margin-top:auto;padding:0 28px 122px;text-align:center;}
+/* z-index 4: por encima de la foto (3) y del velo (2) */
+.hero-bottom{position:relative;z-index:4;margin-top:auto;padding:0 28px 122px;text-align:center;}
 .hero-eyebrow{
   font-family:'Cormorant Garamond',serif;font-style:italic;
   font-size:22px;letter-spacing:4px;text-transform:uppercase;
@@ -845,6 +858,7 @@ footer .fc a{color:inherit;text-decoration:none;}
   <!-- HERO -->
   <section class="hero" style="padding:0;">
     <div class="hero-bg"></div>
+    <img class="hero-photo" src="https://bsjoelxktbvlavfoozhk.supabase.co/storage/v1/object/public/fotos-clientes/01e08c94-40b4-4949-acf5-e88fc454d177/1786404663959-4.jpeg" alt="Anabel y Salvador frente al mar" fetchpriority="high">
     <div class="hero-veil"></div>
     <div class="hero-bottom">
       <h1 class="hero-names" id="hNm">
