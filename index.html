@@ -1324,7 +1324,7 @@ footer .fc a{color:inherit;text-decoration:none;}
         </g>
       </svg>
 
-      <p class="rsvp-text">Nos encantará contar contigo. Por favor confirma tu asistencia antes del <strong>10 de septiembre de 2026</strong>.</p>
+      <p class="rsvp-text">Nos encantará contar contigo. Por favor confírmanos tu asistencia.</p>
 
       <p class="rsvp-name-display" id="rsvpNameDisplay" style="display:none"></p>
 
@@ -1337,7 +1337,6 @@ footer .fc a{color:inherit;text-decoration:none;}
         Confirmar
       </button>
       <p id="rsvpFeedback" style="display:none;text-align:center;margin-top:14px;font-size:14px;font-style:italic;font-family:'Cormorant Garamond',serif"></p>
-      <p class="rsvp-deadline">Fecha límite: 10 de septiembre de 2026</p>
     </div>
   </section>
 
@@ -1381,16 +1380,43 @@ gsap.registerPlugin(ScrollTrigger);
 /* ══════════════════════════════════════
    RSVP — Panel de Invitados (Elysium)
 ══════════════════════════════════════ */
+/* Personalización robusta: WhatsApp/Messenger cortan la URL en el primer
+   espacio o & al pegarla, y el link-shim (l.php) borra el fragment (#).
+   Un nombre como "Sr. & Sra. Ricardo & Yesenia Ambriz" llegaba truncado a
+   "Sr." y el panel lo registraba como otra invitación. Por eso el panel ahora
+   genera un token base64url en ?i=… (sin espacios, & ni %) que pasa intacto.
+   Se conserva ?para=&pases= para los links ya enviados. */
+function decodeInvite(tok){
+  try{
+    var b64 = tok.replace(/-/g, '+').replace(/_/g, '/');
+    while(b64.length % 4) b64 += '=';
+    var bin = atob(b64), bytes = new Uint8Array(bin.length);
+    for(var i = 0; i < bin.length; i++){ bytes[i] = bin.charCodeAt(i); }
+    var p = new TextDecoder().decode(bytes).split('|');
+    return { para: (p[0] || '').trim(), pases: parseInt(p[1], 10) || 1 };
+  }catch(e){ return null; }
+}
 var RSVP_PARAMS    = new URLSearchParams(window.location.search);
-var RSVP_PARA      = RSVP_PARAMS.get('para');
-var RSVP_RAW       = parseInt(RSVP_PARAMS.get('pases'), 10);
+var RSVP_HASH      = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+var RSVP_TOKEN     = RSVP_PARAMS.get('i') || RSVP_HASH.get('i');
+var RSVP_PARA      = null;
+var RSVP_RAW       = NaN;
+if(RSVP_TOKEN){
+  var RSVP_DEC = decodeInvite(RSVP_TOKEN);
+  if(RSVP_DEC && RSVP_DEC.para){ RSVP_PARA = RSVP_DEC.para; RSVP_RAW = RSVP_DEC.pases; }
+}
+if(!RSVP_PARA){
+  RSVP_PARA = (RSVP_PARAMS.get('para') || RSVP_HASH.get('para') || '').trim() || null;
+  RSVP_RAW  = parseInt(RSVP_PARAMS.get('pases') || RSVP_HASH.get('pases'), 10);
+}
 var RSVP_PASES     = (!isNaN(RSVP_RAW) && RSVP_RAW >= 1 && RSVP_RAW <= 20) ? RSVP_RAW : 1;
 var RSVP_URL       = 'https://boda-anabel-y-salvador.vercel.app';
 var RSVP_CHOICE    = 'yes';   /* 'yes' | 'no' — default Sí */
 
-/* Fecha límite: 10 sep 2026 23:59:59 — desde el 11 sep 00:00 el form se congela */
-var RSVP_DEADLINE = new Date(2026, 8, 10, 23, 59, 59, 999);
-var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
+/* Esta boda no maneja fecha límite: las confirmaciones quedan abiertas.
+   RSVP_FROZEN se deja en false para que applyDeadlineFreeze no haga nada y
+   el formulario nunca se cierre solo. */
+var RSVP_FROZEN   = false;
 
 (function initRsvp(){
   var container = document.getElementById('rsvp-fields');
@@ -1438,17 +1464,12 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
     nombresWrap.innerHTML = '';
     if(RSVP_CHOICE !== 'yes') return;
     for(var j = 0; j < RSVP_PASES; j++){
-      var lbl = document.createElement('label');
-      lbl.className = 'rsvp-label';
-      lbl.setAttribute('for', 'rsvp-n-' + j);
-      lbl.textContent = 'Nombre completo del invitado ' + (j + 1);
       var inp = document.createElement('input');
       inp.type = 'text';
       inp.id = 'rsvp-n-' + j;
       inp.className = 'rsvp-nombre-input';
       inp.placeholder = 'Nombre completo del invitado ' + (j + 1);
       inp.autocomplete = 'name';
-      nombresWrap.appendChild(lbl);
       nombresWrap.appendChild(inp);
     }
   }
@@ -1495,7 +1516,7 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        nombre:              RSVP_PARA || 'Invitado',
+        nombre:              RSVP_PARA,
         estado:              estado,
         pases_confirmados:   estado === 'confirmado' ? nombresArr.length : 0,
         nombres_confirmados: estado === 'confirmado' ? nombresArr : [],
@@ -1516,7 +1537,13 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
         setTimeout(function(){ btn.textContent = 'Actualizar respuesta'; }, 2400);
       } else {
         btn.textContent = 'Confirmar';
-        setFeedback('Hubo un problema al enviar. Intenta de nuevo.', '#b91c1c');
+        /* El API dice POR QUÉ falló; "intenta de nuevo" sería mentira aquí. */
+        var motivo = (d && d.error === 'no_match')
+          ? 'No pudimos identificar tu invitación. Abre el enlace personalizado que te enviamos por WhatsApp; ese es el único que registra tu confirmación.'
+          : (d && d.error === 'invitacion_borrada')
+            ? 'Esta invitación ya no está activa. Por favor contacta a los novios para que te envíen un enlace nuevo.'
+            : 'Hubo un problema al enviar. Intenta de nuevo.';
+        setFeedback(motivo, '#b91c1c');
       }
     })
     .catch(function(){
@@ -1526,9 +1553,21 @@ var RSVP_FROZEN   = Date.now() > RSVP_DEADLINE.getTime();
     });
   }
 
+  /* Sin ?para= no hay invitación que actualizar: se avisa antes de que
+     llene un formulario que nunca podría enviarse. */
+  if(!RSVP_PARA){
+    btn.disabled = true;
+    btn.style.opacity = '.55';
+    setFeedback("Para confirmar necesitas abrir el enlace personalizado que te enviamos por WhatsApp. Ese enlace lleva tu nombre y tus pases; si lo abres desde un reenvío o escribiendo la dirección a mano, no podemos identificar tu invitación.", '#8a6a3a');
+  }
+
   btn.addEventListener('click', function(){
     if(RSVP_FROZEN){
       setFeedback('El plazo para confirmar ya cerró.', '#b91c1c');
+      return;
+    }
+    if(!RSVP_PARA){
+      setFeedback("Para confirmar necesitas abrir el enlace personalizado que te enviamos por WhatsApp. Ese enlace lleva tu nombre y tus pases; si lo abres desde un reenvío o escribiendo la dirección a mano, no podemos identificar tu invitación.", '#b91c1c');
       return;
     }
     if(RSVP_CHOICE === 'no'){
@@ -1935,10 +1974,6 @@ function initRsvpMotion(){
     {opacity:0},
     {opacity:1, duration:.9, stagger:.08, ease:'power2.out',
      scrollTrigger:{trigger:'.rsvp-card', start:'top 85%'}});
-  gsap.fromTo('.rsvp-deadline',
-    {opacity:0, letterSpacing:'1em'},
-    {opacity:1, letterSpacing:'normal', duration:1,
-     scrollTrigger:{trigger:'.rsvp-deadline', start:'top 92%'}});
 }
 
 /* ══════════════════════════════════════
